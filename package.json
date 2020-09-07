@@ -1,8 +1,8 @@
 {
-  "name": "cloudcoherence-react-components",
+  "name": "components",
   "version": "0.0.1",
   "private": true,
-  "main": "src/components",
+  "main": "lib/index.ts",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -14,14 +14,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "typescript": "^3.7.5"
-  },
-  "devDependencies": {
-    
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "",
+    "build": "npx tsc",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
