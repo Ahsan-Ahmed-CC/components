@@ -4,7 +4,7 @@ interface propTypes {
   className?: string;
 }
 
-const Button: React.SFC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
+const Button: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
     return (
       <div className={`${props.className}`}>
         Button

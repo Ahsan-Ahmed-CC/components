@@ -1,3 +1,7 @@
-import Button from './Button';
+export const Button = require('./Button');
+export const Table = require('./Table')
 
-export default Button;
+export default {
+    Button,
+    Table
+}
