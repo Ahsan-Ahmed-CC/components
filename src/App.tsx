@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './components/Table';
+import { Table } from 'cloud-coherence-components';
 import { IColumnHeading } from './types/Table';
 
 const columns: Array<IColumnHeading> = [

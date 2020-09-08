@@ -1,4 +1,8 @@
 /// <reference types="react" />
+import Button from './Button';
+import Table from './Table';
+import Pagination from './Pagination';
+export { Button, Table, Pagination };
 declare const _default: {
     Button: import("react").FC<{
         className?: string | undefined;
