@@ -3,7 +3,9 @@ import { IColumnHeading } from '../types/Table';
 interface propTypes {
     className?: string;
     pageSize?: number;
-    columnHeading?: IColumnHeading;
+    columnHeadings: Array<IColumnHeading>;
+    data: Array<any>;
+    onSortData?: Function;
 }
 declare const Table: React.FC<propTypes>;
 export default Table;

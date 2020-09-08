@@ -1,86 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { IColumnHeading } from '../types/Table';
 
 interface propTypes {
     className?: string;
-    pageSize? : number,
-    columnHeading?: IColumnHeading
+    pageSize?: number,
+    columnHeadings: Array<IColumnHeading>
+    data: Array<any>,
+    onSortData?: Function
 }
 
 const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
-    return (
 
-        <table className={`${props.className} table table-hover`}>
+    const [orderBy, setOrderKey] = useState<string>();
+    const [orderDirection, setOrderDirection] = useState<boolean | "desc" | "asc">("asc");
+
+    const setOrderStatus = (value: IColumnHeading, event: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>) => {
+        const orderKey = value.keyIndex;
+        
+        if(!value.sortable) {
+            return
+        }
+
+        let orderDirectionTemp: boolean | "desc" | "asc" = "asc"
+        if (orderKey == orderBy && orderDirection == orderDirectionTemp) {
+            orderDirectionTemp = "desc"
+        } else {
+            orderDirectionTemp = "asc"
+        }
+        setOrderDirection(orderDirectionTemp);
+        setOrderKey(`${orderKey}`)
+        
+        if(props.onSortData)
+            props.onSortData(orderKey, orderDirectionTemp);
+    }
+
+    return (
+        <table className={`table table-hover ${props.className}`}>
             <thead>
                 <tr>
-                    <th scope="col" onClick={() => _.orderBy([], ["Type"], ['desc'])}>Type</th>
-                    <th scope="col">Column heading</th>
-                    <th scope="col">Column heading</th>
-                    <th scope="col">Column heading</th>
+                    {_.map(props.columnHeadings, (value, key) => {
+                        return (
+                            <th scope="col" key={value.keyIndex} onClick={(e) => setOrderStatus(value, e)}>
+                                {value.renderColumn ? value.renderColumn(value, key) : (value.label || value.keyIndex)}
+                            </th>
+                        )
+                    })}
                 </tr>
             </thead>
             <tbody>
-                <tr className="table-active">
-                    <th scope="row">Active</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr>
-                    <th scope="row">Default</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-primary">
-                    <th scope="row">Primary</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-secondary">
-                    <th scope="row">Secondary</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-success">
-                    <th scope="row">Success</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-danger">
-                    <th scope="row">Danger</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-warning">
-                    <th scope="row">Warning</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-info">
-                    <th scope="row">Info</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-light">
-                    <th scope="row">Light</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
-                <tr className="table-dark">
-                    <th scope="row">Dark</th>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                    <td>Column content</td>
-                </tr>
+                {_.map(_.orderBy(props.data, [orderBy], [orderDirection]), (row, key) => {
+                    return (
+                        <tr key={`${key}`}>
+                            {_.map(props.columnHeadings, (column, columnKeyIndex) => {
+                                return (
+                                    <td key={`${key}-${columnKeyIndex}`}>
+                                        {column.render ? column.render(row, key) : row[column.keyIndex] || "N/A"}
+                                    </td>
+                                )
+                            })}
+                        </tr>
+                    )
+                })}
             </tbody>
         </table>
     );
@@ -89,6 +70,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
 
 Table.defaultProps = {
     className: '',
+    pageSize: 10,
 };
 
 export default Table;
