@@ -1,6 +1,6 @@
 import React from 'react';
-interface propTypes {
+declare type propTypes = {
     className?: string;
-}
+};
 declare const Button: React.FC<propTypes>;
 export default Button;

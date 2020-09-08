@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { IColumnHeading } from '../types/Table';
 
-interface propTypes {
+type propTypes = {
     className?: string;
     pageSize?: number,
     columnHeadings: Array<IColumnHeading>

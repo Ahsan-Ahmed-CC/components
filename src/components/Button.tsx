@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface propTypes {
+type propTypes = {
   className?: string;
 }
 

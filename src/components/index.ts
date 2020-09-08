@@ -1,7 +1,9 @@
-export const Button = require('./Button');
-export const Table = require('./Table')
+import Button from './Button'
+import Table from './Table';
+import Pagination from './Pagination'
 
-export default {
+export default  {
     Button,
-    Table
+    Table,
+    Pagination
 }
