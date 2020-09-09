@@ -5,6 +5,7 @@ import Pagination from './Pagination'
 
 type propTypes = {
     className?: string;
+    tableClassName?: string;
     style?: React.CSSProperties;
     pageSize?: number;
     columnHeadings: Array<IColumnHeading>;
@@ -76,12 +77,12 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
 
     return (
         <div className={`${props.className || ""}`} style={props.style}>
-            <table className={`table table-hover`}>
+            <table className={`${props.tableClassName}`}>
                 <thead>
                     <tr className="table-active">
                         {_.map(props.columnHeadings, (value, key) => {
                             return (
-                                <th scope="col" key={value.keyIndex} onClick={(e) => setOrderStatus(value, e)}>
+                                <th scope="col" key={value.keyIndex} onClick={(e) => setOrderStatus(value, e)} style={value.headerStyle}>
                                     {value.renderColumn ? value.renderColumn(value, key) : (value.label || value.keyIndex)}
                                     {value.sortable ? <svg width="12px" height="12px" viewBox="0 0 16 16" className={`bi ${orderDirection == "asc" ? "bi-caret-up-fill" : "bi-caret-down-fill"}`} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         {orderDirection == "asc" && orderBy == value.keyIndex ?
@@ -104,7 +105,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
                             <tr key={`${key}`}>
                                 {_.map(props.columnHeadings, (column, columnKeyIndex) => {
                                     return (
-                                        <td key={`${key}-${columnKeyIndex}`} onClick={() => onRowItemClick(row, column.keyIndex)}>
+                                        <td key={`${key}-${columnKeyIndex}`} onClick={() => onRowItemClick(row, column.keyIndex)} style={column.columnStyle}>
                                             {renderRowData(column, row, key)}
                                         </td>
                                     )
@@ -129,6 +130,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
 Table.defaultProps = {
     className: '',
     pageSize: 10,
+    tableClassName: "table table-hover",
 };
 
 export default Table;
