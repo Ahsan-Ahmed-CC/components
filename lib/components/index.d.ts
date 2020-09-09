@@ -9,6 +9,7 @@ declare const _default: {
     }>;
     Table: import("react").FC<{
         className?: string | undefined;
+        tableClassName?: string | undefined;
         style?: import("react").CSSProperties | undefined;
         pageSize?: number | undefined;
         columnHeadings: import("../types/Table").IColumnHeading<any>[];
