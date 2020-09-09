@@ -5,7 +5,6 @@ import Pagination from './Pagination'
 
 type propTypes = {
     className?: string;
-    tableClassName?: string;
     style?: React.CSSProperties;
     pageSize?: number;
     columnHeadings: Array<IColumnHeading>;
@@ -76,8 +75,8 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
     const totalData = _.chunk(props.data, props.pageSize)
 
     return (
-        <div className={`${props.className || ""}`} style={props.style}>
-            <table className={`${props.tableClassName}`}>
+        <>
+            <table className={`${props.className || ""}`} style={props.style}>
                 <thead>
                     <tr className="table-active">
                         {_.map(props.columnHeadings, (value, key) => {
@@ -122,15 +121,14 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
                     activeIndex={paginationIndex}
                 />
                 : null}
-        </div>
+        </>
     );
 }
 );
 
 Table.defaultProps = {
-    className: '',
+    className: 'table table-hover',
     pageSize: 10,
-    tableClassName: "table table-hover",
 };
 
 export default Table;

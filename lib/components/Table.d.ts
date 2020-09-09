@@ -2,7 +2,6 @@ import React from 'react';
 import { IColumnHeading } from '../types/Table';
 declare type propTypes = {
     className?: string;
-    tableClassName?: string;
     style?: React.CSSProperties;
     pageSize?: number;
     columnHeadings: Array<IColumnHeading>;
