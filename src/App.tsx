@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table } from 'cloud-coherence-components';
+import { Table } from './components';
 import { IColumnHeading } from './types/Table';
+import _ from 'lodash';
 
 const columns: Array<IColumnHeading> = [
   {
@@ -25,6 +26,13 @@ const columns: Array<IColumnHeading> = [
     label: "Weight",
     keyIndex: "weight",
     sortable: true,
+    filterable: true,
+  },
+  {
+    label: "Sold",
+    keyIndex: "status.sold,status.purchased",
+    sortable: true,
+    render: (value, rowKey) => _.join(Object.values(value), " "),
     filterable: true,
   }
 ]

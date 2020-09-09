@@ -1,43 +1,85 @@
 import React from 'react';
+import _ from 'lodash';
 
 type propTypes = {
+    onPreviousClick?: Function;
+    onNextClick?: Function;
+    activeIndex: number;
+    total: number;
+    showNumberLength?: number;
+    onItemClick: Function;
     className?: string;
-    activeIndex: number,
+    style?: React.CSSProperties
 }
 
 const Pagination: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
+
+    const getPageNumbers = (total: number, current: number) => {
+        const pageIndex = props.showNumberLength || 3
+        let startIndex = 0;
+        let endIndex = total;
+
+        if (current - Math.floor(pageIndex / 2) >= 0) {
+            startIndex = current - Math.floor(pageIndex / 2)
+        }
+
+        if (!(current > total - pageIndex)) {
+            endIndex = (current + pageIndex) - Math.floor(pageIndex / 2)
+        }
+
+        const generatedArray: Array<number | string> = _.range(startIndex, endIndex);
+
+        if (startIndex > 0) {
+            generatedArray.unshift("...")
+            generatedArray.unshift(0);
+        }
+        if (endIndex != total) {
+            generatedArray.push("...")
+            generatedArray.push(total - 1);
+        }
+
+        return generatedArray
+    }
+
+    const onNextClick = () => {
+        if (props.activeIndex + 1 < props.total) {
+            if (props.onNextClick)
+                props.onNextClick(props.activeIndex + 1);
+            props.onItemClick(props.activeIndex + 1)
+        }
+    }
+
+    const onPreviousClick = () => {
+        if (props.activeIndex - 1 > 0) {
+            if (props.onPreviousClick)
+                props.onPreviousClick(props.activeIndex - 1);
+            props.onItemClick(props.activeIndex - 1)
+        }
+    }
+
     return (
-        <div className={`${props.className}`}>
-            <ul className="pagination">
-                <li className="page-item">
-                    <a className="page-link" href="#">&laquo;</a>
-                </li>
-                <li className="page-item active">
-                    <a className="page-link" href="#">1</a>
-                </li>
-                <li className="page-item">
-                    <a className="page-link" href="#">2</a>
-                </li>
-                <li className="page-item">
-                    <a className="page-link" href="#">3</a>
-                </li>
-                <li className="page-item">
-                    <a className="page-link" href="#">4</a>
-                </li>
-                <li className="page-item">
-                    <a className="page-link" href="#">5</a>
-                </li>
-                <li className="page-item">
-                    <a className="page-link" href="#">&raquo;</a>
-                </li>
-            </ul>
-        </div>
+        <ul className={`pagination ${props.className}`} style={props.style}>
+            <li className="page-item" onClick={onPreviousClick}>
+                <a className="page-link" href="#">&laquo;</a>
+            </li>
+            {_.map(getPageNumbers(props.total, props.activeIndex), (index) => {
+                return (
+                    <li key={index} className={`page-item ${index == props.activeIndex ? "active" : ""}`} onClick={() => typeof index == "number" ? props.onItemClick(index) : null}>
+                        <a className="page-link" href="#">{typeof index == "number" ? index + 1 : index}</a>
+                    </li>
+                )
+            })}
+            <li className="page-item" onClick={onNextClick}>
+                <a className="page-link" href="#">&raquo;</a>
+            </li>
+        </ul>
     );
 },
 );
 
 Pagination.defaultProps = {
     className: '',
+    showNumberLength: 3,
 };
 
 export default Pagination;

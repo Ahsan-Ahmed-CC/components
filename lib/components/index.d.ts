@@ -9,14 +9,23 @@ declare const _default: {
     }>;
     Table: import("react").FC<{
         className?: string | undefined;
+        style?: import("react").CSSProperties | undefined;
         pageSize?: number | undefined;
         columnHeadings: import("../types/Table").IColumnHeading<any>[];
         data: any[];
         onSortData?: Function | undefined;
+        onPageChange?: Function | undefined;
+        onRowItemClick?: Function | undefined;
     }>;
     Pagination: import("react").FC<{
-        className?: string | undefined;
+        onPreviousClick?: Function | undefined;
+        onNextClick?: Function | undefined;
         activeIndex: number;
+        total: number;
+        showNumberLength?: number | undefined;
+        onItemClick: Function;
+        className?: string | undefined;
+        style?: import("react").CSSProperties | undefined;
     }>;
 };
 export default _default;
