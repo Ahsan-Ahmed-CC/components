@@ -12,6 +12,7 @@ type propTypes = {
     onSortData?: Function;
     onPageChange?: Function;
     onRowItemClick?: Function;
+    rowStyle?: React.CSSProperties;
 }
 
 const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
@@ -46,9 +47,9 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
             props.onPageChange(index)
     }
 
-    const onRowItemClick = (row: any, keyIndex: IColumnHeading["keyIndex"]) => {
+    const onRowItemClick = (row: any, index: number) => {
         if (props.onRowItemClick)
-            props.onRowItemClick(row, keyIndex)
+            props.onRowItemClick(row, index + (paginationIndex * (props.pageSize || 1)))
     }
 
     const renderRowData = (column: IColumnHeading<any>, row: any, rowKey: number) => {
@@ -101,10 +102,10 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
                 <tbody>
                     {_.map(_.orderBy(totalData[paginationIndex], _.split(orderBy, ","), [orderDirection]), (row, key) => {
                         return (
-                            <tr key={`${key}`}>
+                            <tr key={`${key}-${paginationIndex}`} onClick={() => onRowItemClick(row, key)} style={props.rowStyle}>
                                 {_.map(props.columnHeadings, (column, columnKeyIndex) => {
                                     return (
-                                        <td key={`${key}-${columnKeyIndex}`} onClick={() => onRowItemClick(row, column.keyIndex)} style={column.columnStyle}>
+                                        <td key={`${key}-${columnKeyIndex}`} style={column.columnStyle}>
                                             {renderRowData(column, row, key)}
                                         </td>
                                     )

@@ -9,6 +9,7 @@ declare type propTypes = {
     onSortData?: Function;
     onPageChange?: Function;
     onRowItemClick?: Function;
+    rowStyle?: React.CSSProperties;
 };
 declare const Table: React.FC<propTypes>;
 export default Table;

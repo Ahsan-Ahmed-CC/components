@@ -16,6 +16,7 @@ declare const _default: {
         onSortData?: Function | undefined;
         onPageChange?: Function | undefined;
         onRowItemClick?: Function | undefined;
+        rowStyle?: import("react").CSSProperties | undefined;
     }>;
     Pagination: import("react").FC<{
         onPreviousClick?: Function | undefined;
