@@ -78,7 +78,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
         <>
             <table className={`${props.className || ""}`} style={props.style}>
                 <thead>
-                    <tr className="table-active">
+                    <tr>
                         {_.map(props.columnHeadings, (value, key) => {
                             return (
                                 <th scope="col" key={value.keyIndex} onClick={(e) => setOrderStatus(value, e)} style={value.headerStyle}>
