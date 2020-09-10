@@ -99,7 +99,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
                     </tr>
                 </thead>
                 <tbody>
-                    {_.map(_.orderBy(totalData[paginationIndex], [orderBy], [orderDirection]), (row, key) => {
+                    {_.map(_.orderBy(totalData[paginationIndex], _.split(orderBy, ","), [orderDirection]), (row, key) => {
                         return (
                             <tr key={`${key}`}>
                                 {_.map(props.columnHeadings, (column, columnKeyIndex) => {
