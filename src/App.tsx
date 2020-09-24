@@ -8,32 +8,27 @@ const columns: Array<IColumnHeading> = [
     label: "Image",
     keyIndex: "image",
     sortable: true,
-    filterable: true,
   },
   {
     label: "Name",
     keyIndex: "name",
     sortable: false,
-    filterable: true,
   },
   {
     label: "Barcode",
     keyIndex: "barcode",
     sortable: true,
-    filterable: true,
   },
   {
     label: "Weight",
     keyIndex: "weight",
     sortable: true,
-    filterable: true,
   },
   {
     label: "Sold",
     keyIndex: "status.sold,status.purchased",
     sortable: true,
     render: (value, rowKey) => _.join(Object.values(value), " "),
-    filterable: true,
   }
 ]
 
@@ -271,7 +266,7 @@ const Data = [
 
 function App() {
   return (
-    <Table columnHeadings={columns} data={Data}/>
+    <Table columnHeadings={columns} data={Data} onRowItemClick={console.log} />
   );
 }
 

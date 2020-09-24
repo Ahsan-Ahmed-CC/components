@@ -33,7 +33,7 @@ const Pagination: React.FC<propTypes> = React.memo((props: React.PropsWithChildr
             generatedArray.unshift("...")
             generatedArray.unshift(0);
         }
-        if (endIndex != total) {
+        if (endIndex !== total) {
             generatedArray.push("...")
             generatedArray.push(total - 1);
         }
@@ -60,17 +60,17 @@ const Pagination: React.FC<propTypes> = React.memo((props: React.PropsWithChildr
     return (
         <ul className={`pagination ${props.className}`} style={props.style}>
             <li className="page-item" onClick={onPreviousClick}>
-                <a className="page-link" href="#">&laquo;</a>
+                <button className="page-link" >&laquo;</button>
             </li>
             {_.map(getPageNumbers(props.total, props.activeIndex), (index) => {
                 return (
-                    <li key={index} className={`page-item ${index == props.activeIndex ? "active" : ""}`} onClick={() => typeof index == "number" ? props.onItemClick(index) : null}>
-                        <a className="page-link" href="#">{typeof index == "number" ? index + 1 : index}</a>
+                    <li key={index} className={`page-item ${index === props.activeIndex ? "active" : ""}`} onClick={() => typeof index === "number" ? props.onItemClick(index) : null}>
+                        <button className="page-link">{typeof index === "number" ? index + 1 : index}</button>
                     </li>
                 )
             })}
             <li className="page-item" onClick={onNextClick}>
-                <a className="page-link" href="#">&raquo;</a>
+                <button className="page-link" >&raquo;</button>
             </li>
         </ul>
     );
