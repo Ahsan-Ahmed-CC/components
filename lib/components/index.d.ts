@@ -14,10 +14,11 @@ declare const _default: {
         pageSize?: number | undefined;
         columnHeadings: import("../types/Table").IColumnHeading<any>[];
         data: any[];
-        onSortData?: Function | undefined;
-        onPageChange?: Function | undefined;
-        onRowItemClick?: Function | undefined;
+        onSortData?: ((orderKey: string | number | ((value: any, key: import("react").ReactText, index: import("react").ReactText) => import("react").ReactText) | undefined, orderDirectionTemp: boolean | "desc" | "asc") => void) | undefined;
+        onPageChange?: ((index: number) => void) | undefined;
+        onRowItemClick?: (<T = any>(row: T, index: number) => void) | undefined;
         rowStyle?: import("react").CSSProperties | undefined;
+        ref?: ((instance: HTMLTableElement | null) => void) | import("react").RefObject<HTMLTableElement> | null | undefined;
     }>;
     Pagination: import("react").FC<{
         onPreviousClick?: Function | undefined;
@@ -33,6 +34,7 @@ declare const _default: {
         className?: string | undefined;
         renderHeading?: ((collapseKey: string) => string | number | JSX.Element) | undefined;
         collapseKey: string;
+        ref?: ((instance: HTMLDivElement | null) => void) | import("react").RefObject<HTMLDivElement> | null | undefined;
     }>;
 };
 export default _default;

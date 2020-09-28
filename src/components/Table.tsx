@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { IColumnHeading } from '../types/Table';
 import Pagination from './Pagination'
+import { css, StyleSheet } from '../helpers/aphrodite';
 
 type propTypes = {
     className?: string;
@@ -9,19 +10,20 @@ type propTypes = {
     pageSize?: number;
     columnHeadings: Array<IColumnHeading>;
     data: Array<any>;
-    onSortData?: Function;
-    onPageChange?: Function;
-    onRowItemClick?: Function;
+    onSortData?: (orderKey: IColumnHeading['sortIndex'], orderDirectionTemp: boolean | "desc" | "asc") => void;
+    onPageChange?: (index: number) => void;
+    onRowItemClick?: <T = any>(row: T, index: number) => void;
     rowStyle?: React.CSSProperties;
+    ref?: React.Ref<HTMLTableElement>
 }
 
-const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
+const Table: React.FC<propTypes> = React.memo(React.forwardRef<HTMLTableElement, propTypes>((props: React.PropsWithoutRef<React.PropsWithChildren<propTypes>>, ref: propTypes['ref']) => {
     const [orderBy, setOrderKey] = useState<IColumnHeading['sortIndex']>();
     const [orderDirection, setOrderDirection] = useState<boolean | "desc" | "asc">("asc");
     const [paginationIndex, setPageNumber] = useState<number>(0);
-
+    const styles = useStyles(props);
+    
     const setOrderStatus = (orderKey: IColumnHeading['sortIndex'], event: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>) => {
-
         let orderDirectionTemp: boolean | "desc" | "asc" = "asc"
         if (orderKey === orderBy && orderDirection === orderDirectionTemp) {
             orderDirectionTemp = "desc"
@@ -30,7 +32,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
         }
         setOrderDirection(orderDirectionTemp);
         setOrderKey(`${orderKey}`)
-
+        
         if (props.onSortData)
             props.onSortData(orderKey, orderDirectionTemp);
     }
@@ -69,21 +71,21 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
 
     const totalData = _.chunk(props.data, props.pageSize);
 
-    const getSortKey = (value: IColumnHeading, index:number) => {
-        if(typeof value.sortIndex === "function") return value.sortIndex(value,value.keyIndex, index)
-        if(typeof value.sortIndex === "undefined") return value.keyIndex;
+    const getSortKey = (value: IColumnHeading, index: number) => {
+        if (typeof value.sortIndex === "function") return value.sortIndex(value, value.keyIndex, index)
+        if (typeof value.sortIndex === "undefined") return value.keyIndex;
         return value.sortIndex
     }
 
     return (
         <>
-            <table className={`${props.className || ""}`} style={props.style}>
+            <table ref={ref} className={`${props.className || ""}`} style={props.style}>
                 <thead>
                     <tr>
                         {_.map(props.columnHeadings, (value, key) => {
                             const sortKey = getSortKey(value, key)
                             return (
-                                <th scope="col" key={value.keyIndex} onClick={(e) => !value.sortable ? setOrderStatus(sortKey, e) : null} style={value.headerStyle}>
+                                <th scope="col" key={value.keyIndex} onClick={(e) => value.sortable ? setOrderStatus(sortKey, e) : null} style={{cursor: value.sortable ? "pointer" : "default", ...value.headerStyle}}>
                                     {value.renderColumn ? value.renderColumn(value, key) : (value.label || value.keyIndex)}
                                     {value.sortable ? <svg width="12px" height="12px" viewBox="0 0 16 16" className={`bi ${orderDirection === "asc" ? "bi-caret-up-fill" : "bi-caret-down-fill"}`} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         {orderDirection === "asc" && orderBy === sortKey ?
@@ -103,7 +105,7 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
                 <tbody>
                     {_.map(_.orderBy(totalData[paginationIndex], _.split(`${orderBy}`, ","), [orderDirection]), (row, key) => {
                         return (
-                            <tr key={`${key}-${paginationIndex}`} onClick={() => onRowItemClick(row, key)} style={props.rowStyle}>
+                            <tr key={`${key}-${paginationIndex}`} onClick={() => onRowItemClick(row, key)} style={props.rowStyle} className={`${css(styles.tableRowClass)}`}>
                                 {_.map(props.columnHeadings, (column, columnKeyIndex) => {
                                     return (
                                         <td key={`${key}-${columnKeyIndex}`} style={column.columnStyle}>
@@ -126,7 +128,15 @@ const Table: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<pr
         </>
     );
 }
-);
+));
+
+const useStyles = (props: propTypes) => React.useMemo(() => {
+    return StyleSheet.create({
+        tableRowClass: {
+            cursor: props.onRowItemClick ? "pointer" : "default"
+        }
+    })
+}, [props])
 
 Table.defaultProps = {
     className: 'table table-hover',

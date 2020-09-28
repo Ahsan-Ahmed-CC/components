@@ -3,10 +3,11 @@ import React from 'react';
 type propTypes = {
   className?: string,
   renderHeading?: (collapseKey: string) => JSX.Element | React.ReactText,
-  collapseKey: string
+  collapseKey: string,
+  ref?: React.Ref<HTMLDivElement>
 }
 
-const Collapse: React.FC<propTypes> = React.memo((props: React.PropsWithChildren<propTypes>) => {
+const Collapse: React.FC<propTypes> = React.memo(React.forwardRef<HTMLDivElement, propTypes>((props: React.PropsWithoutRef<React.PropsWithChildren<propTypes>>, ref: propTypes['ref']) => {
   return (
     <div className={`${props.className}`}>
       <div data-toggle="collapse" data-target={`#${props.collapseKey.toLowerCase()}`} aria-expanded="false" aria-controls="collapseExample">
@@ -17,8 +18,8 @@ const Collapse: React.FC<propTypes> = React.memo((props: React.PropsWithChildren
       </div>
     </div>
   );
-},
-);
+}
+));
 
 Collapse.defaultProps = {
   className: '',

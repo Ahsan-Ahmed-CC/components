@@ -264,9 +264,14 @@ const Data = [
   },
 ];
 
+
+
 function App() {
   return (
-    <Table columnHeadings={columns} data={Data} onRowItemClick={console.log} />
+    <Table
+      columnHeadings={columns} 
+      data={Data} 
+      onRowItemClick={console.log} />
   );
 }
 

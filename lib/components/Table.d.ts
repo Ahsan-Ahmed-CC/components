@@ -6,10 +6,11 @@ declare type propTypes = {
     pageSize?: number;
     columnHeadings: Array<IColumnHeading>;
     data: Array<any>;
-    onSortData?: Function;
-    onPageChange?: Function;
-    onRowItemClick?: Function;
+    onSortData?: (orderKey: IColumnHeading['sortIndex'], orderDirectionTemp: boolean | "desc" | "asc") => void;
+    onPageChange?: (index: number) => void;
+    onRowItemClick?: <T = any>(row: T, index: number) => void;
     rowStyle?: React.CSSProperties;
+    ref?: React.Ref<HTMLTableElement>;
 };
 declare const Table: React.FC<propTypes>;
 export default Table;
