@@ -12,7 +12,7 @@ type propTypes = {
     data: Array<any>;
     onSortData?: (orderKey: IColumnHeading['sortIndex'], orderDirectionTemp: boolean | "desc" | "asc") => void;
     onPageChange?: (index: number) => void;
-    onRowItemClick?: <T = any>(row: T, index: number) => void;
+    onRowItemClick?: (row: any, index: number) => void;
     rowStyle?: React.CSSProperties;
     ref?: React.Ref<HTMLTableElement>
 }

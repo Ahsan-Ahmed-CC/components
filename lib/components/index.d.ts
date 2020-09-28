@@ -16,7 +16,7 @@ declare const _default: {
         data: any[];
         onSortData?: ((orderKey: string | number | ((value: any, key: import("react").ReactText, index: import("react").ReactText) => import("react").ReactText) | undefined, orderDirectionTemp: boolean | "desc" | "asc") => void) | undefined;
         onPageChange?: ((index: number) => void) | undefined;
-        onRowItemClick?: (<T = any>(row: T, index: number) => void) | undefined;
+        onRowItemClick?: ((row: any, index: number) => void) | undefined;
         rowStyle?: import("react").CSSProperties | undefined;
         ref?: ((instance: HTMLTableElement | null) => void) | import("react").RefObject<HTMLTableElement> | null | undefined;
     }>;
