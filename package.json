@@ -3,6 +3,17 @@
   "version": "0.0.4",
   "private": true,
   "main": "lib/components",
+  "peerDependencies": {
+    "aphrodite": "2.4.0",
+    "lodash": "4.17.20",
+    "moment": "2.29.0",
+    "qs": "6.9.4",
+    "react": "16.13.1",
+    "react-async": "10.0.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.3",
+    "typescript": "3.9.7"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
